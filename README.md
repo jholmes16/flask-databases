@@ -1,1 +1,1 @@
-"# Flask Database Tutorial" 
+Flask Database Tutorial
