@@ -22,7 +22,7 @@ class Puppy(db.Model):
     name = db.Column(db.Text)
     age = db.Column(db.Integer)
 
-    def __init__(self, name, age)
+    def __init__(self, name, age):
         self.name = name
         self.age = age
 
