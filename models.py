@@ -51,7 +51,7 @@ class Toy(db.Model):
     puppy_id = db.Column(db.Integer, db.ForeignKey('puppies.id'))
 
     def __init__(self, item_name, puppy_id):
-        self.id = item_name = item_name
+        self.item_name = item_name
         self.puppy_id = puppy_id
 
 class Owner(db.Model):
