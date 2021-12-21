@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy
+db = SQLAlchemy(app)
 Migrate(app, db)
 
 
@@ -36,7 +36,7 @@ class Puppy(db.Model):
         else:
             return f"Puppy name is {self.name} and has no owner yet!"
 
-    def report_toys(self)
+    def report_toys(self):
         print("Here are my toys:")
         for toy in self.toys:
             print(toy.item_name)
@@ -50,7 +50,7 @@ class Toy(db.Model):
     item_name = db.Column(db.Text)
     puppy_id = db.Column(db.Integer, db.ForeignKey('puppies.id'))
 
-    def __init__(self, item_name, puppy_id)
+    def __init__(self, item_name, puppy_id):
         self.id = item_name = item_name
         self.puppy_id = puppy_id
 
