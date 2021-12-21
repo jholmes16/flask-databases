@@ -1,35 +1,31 @@
-import os
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from models import db, Puppy, Owner, Toy
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+#Create 2 puppies
+rufus = Puppy('Rufus')
+fido = Puppy('Fido')
 
-app = Flask(__name__)
+#Add Puppies to db
+db.session.add_all([rufus, fido])
+db.session.commit()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#check save
+print(Puppy.query.all())
 
-db = SQLAlchemy(app)
+rufus = Puppy.query.filter_by(name='Rufus').first()
+print(rufus)
 
-Migrate(app, db)
+#Create owner object
+jose = Owner('Jose', rufus.id)
 
-###########################################################################################
+#Give Rufus some Toys
+toy1 = Toy('Chew Toy', rufus.id)
+toy2 = Toy('Ball', rufus.id)
 
-class Puppy(db.Model):
+db.session.add_all([jose, toy1, toy2])
+db.session.commit()
 
-    #Manual override table name
-    __tablename__ = 'puppies'
+#Grab rufus after those additions
+rufus = Puppy.query.filter_by(name='Rufus').first()
+print(rufus)
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
-    age = db.Column(db.Integer)
-    breed = db.Column(db.Text)
-
-    def __init__(self, name, age, breed):
-        self.name = name
-        self.age = age
-        self.breed = breed
-
-    def __repr__(self):
-        return f"Puppy {self.name} is {self.age} year/s old"
+rufus.report_toys()
